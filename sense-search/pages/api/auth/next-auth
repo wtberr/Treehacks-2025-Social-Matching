@@ -9,4 +9,15 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+  },
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Redirect to profile page after sign in
+      return `${baseUrl}/profile`;
+    },
+  },
 });
