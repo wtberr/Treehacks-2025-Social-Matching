@@ -8,8 +8,8 @@ def find_nearest_points(points, query_point, n_neighbors):
     Basic KNN application, finding nearest neighbor(s) to a query point using euclidian distance.
     Arguments: 
         points- numpy array of shape (n_samples, n_features) containing the users feature vectors
-        
-    
+        query_point- numpy array of shape (n_features,), the point to find neighbors for
+        n_neighbors- number of nearest neighbors to find 
     Returns:
         distances: distances to the nearest neighbors
         indices: indices of the nearest neighbors in the original points array
