@@ -6,11 +6,9 @@ from sklearn.neighbors import NearestNeighbors
 def find_nearest_points(points, query_point, n_neighbors):
     """
     Basic KNN application, finding nearest neighbor(s) to a query point using euclidian distance.
-    
-    Args:
-        points: numpy array of shape (n_samples, n_features) containing the reference points
-        query_point: numpy array of shape (n_features,) or (1, n_features) - the point to find neighbors for
-        n_neighbors: number of nearest neighbors to find (default=1)
+    Arguments: 
+        points- numpy array of shape (n_samples, n_features) containing the users feature vectors
+        
     
     Returns:
         distances: distances to the nearest neighbors
