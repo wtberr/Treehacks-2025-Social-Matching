@@ -1,7 +1,7 @@
 // pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-// setup according to documentation
+// setup according to documentation online
 export default NextAuth({
   providers: [
     GoogleProvider({
