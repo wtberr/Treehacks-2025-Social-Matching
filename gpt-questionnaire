@@ -1,0 +1,81 @@
+import openai
+
+class GPTWrapper:
+    def __init__(self):
+        """Initialize the wrapper with a hardcoded API key."""
+        self.api_key = "INSERT API KEY"
+        self.client = openai.OpenAI(api_key=self.api_key)
+
+    def chat(self, prompt: str, model: str = "gpt-4", max_tokens: int = 200):
+        """Send a prompt to OpenAI's API and return the response."""
+        try:
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=max_tokens,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            return f"Error: {e}"
+
+    def get_initial_responses(self):
+        """Ask the first 10 pre-decided questions."""
+        questions = [
+            "What's your favorite way to spend a weekend?",
+            "Do you have a favorite book or movie?",
+            "What's the best place you've ever traveled to?",
+            "Are you a morning person or a night owl?",
+            "Do you have any pets?",
+            #"Do you enjoy outdoor activities? If so, which ones?",
+           # "What's a skill you're proud of?",
+            #"Do you prefer tea or coffee?",
+           # "What's your favorite season of the year?",
+           # "Do you enjoy cooking or baking?"
+        ]
+
+        responses_for_round = []
+        print("Round 1: Initial Questions")
+        for question in questions:
+            response = input(f"{question} ")
+            responses_for_round.append(str(question + ' ' + response))
+        return responses_for_round
+
+    def generate_follow_up_questions(self, context):
+        """Generate follow-up questions based on the responses using GPT-3."""
+        prompt = f"Here are some responses to personal questions:\n{context}\n\nPlease generate 5 follow-up questions based on these responses. Put each on a separate line and do not output anything else."
+        response = self.chat(prompt)
+        follow_up_questions = response.split('\n')
+        return follow_up_questions
+    
+    def ask_follow_up_questions(self, round_num, previous_responses):
+        """Ask follow-up questions based on previous responses."""
+        context = "\n".join(previous_responses)  # Combine responses for context
+        follow_up_questions = self.generate_follow_up_questions(context)
+
+        responses_for_round = []
+        print(f"\nRound {round_num}: Follow-up Questions")
+        for question in follow_up_questions:
+            response = input(f"{question} ")
+            responses_for_round.append(str(question + ' ' + response))
+
+        return ' '.join(responses_for_round)
+    
+    def summarize(self, responses_list):
+        prompt = f"Here are an individual's responses in question-answer format: {responses_list}. Write these in full sentences and summarize where necessary or relevant to create a profile of this person."
+        summary = self.chat(prompt)
+        return summary
+
+
+if __name__ == "__main__":
+    gpt = GPTWrapper()
+    initial_responses = gpt.get_initial_responses()
+    nrounds = 1
+    round_response = initial_responses
+    all_responses = []
+    for i in range(nrounds):
+        round_response = gpt.ask_follow_up_questions(i + 1, round_response)
+        all_responses.append(round_response)
+
+    all_responses = '. '.join(all_responses)
+    response_summary = gpt.summarize(all_responses)
+    print(response_summary)
