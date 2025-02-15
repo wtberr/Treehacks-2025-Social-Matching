@@ -32,9 +32,9 @@ def find_nearest_users(user_features, user_ids, query_features, n_neighbors=10):
     Find the nearest users based on their feature vectors.
     
     Args:
-        user_features: numpy array of shape (n_users, n_features) containing all users' features
-        user_ids: array-like of user IDs corresponding to the features
-        query_features: numpy array of shape (n_features,) or (1, n_features) - features to find neighbors for
+        user_features: numpy array of shape (n_users, n_features) network users feature vectors
+        user_ids: array of user IDs corresponding to the features
+        query_features: numpy array of shape (n_features,) features to find neighbors for
         n_neighbors: number of nearest neighbors to find (default=10)
     
     Returns:
@@ -45,7 +45,7 @@ def find_nearest_users(user_features, user_ids, query_features, n_neighbors=10):
     neighbor_ids = [user_ids[idx] for idx in indices]
     return distances, neighbor_ids
 
-# Example usage:
+# Test Example:
 if __name__ == "__main__":
     # Generate 100 random users with 7D features
     np.random.seed(42)  # For reproducibility
